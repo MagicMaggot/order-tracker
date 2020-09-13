@@ -26,7 +26,7 @@ import com.babooin.testapp.service.ProductService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 	
 	@Value("${xmlProducts.upload.location}")

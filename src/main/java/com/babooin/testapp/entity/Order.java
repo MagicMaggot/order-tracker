@@ -34,7 +34,6 @@ public class Order {
 	private double total;
 	
 	@Column(name = "placed")
-	//private String orderDate;
 	private LocalDate orderDate;
 	
 	@JsonProperty("orderedItem")

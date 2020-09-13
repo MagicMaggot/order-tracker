@@ -31,7 +31,7 @@ import com.babooin.ws.datetime.ServerDateTime;
 import com.babooin.ws.datetime.ServerDateTimeService;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
 	
 	@Autowired
