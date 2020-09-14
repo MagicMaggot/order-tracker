@@ -53,6 +53,7 @@ public class ProductController {
 	public Product getProduct(@PathVariable String serial) {
 		Optional<Product> result = productService.findBySerial(serial);
 		result.orElseThrow(() -> new ProductNotFoundException(serial));
+		System.out.println(result.get().getOrderedItems());
 		return result.get();
 	}
 	
