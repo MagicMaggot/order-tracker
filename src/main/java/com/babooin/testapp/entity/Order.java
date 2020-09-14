@@ -38,7 +38,7 @@ public class Order {
 	
 	@JsonProperty("orderedItem")
 	@JacksonXmlElementWrapper(localName =  "orderedItems")
-	@OneToMany(mappedBy = "order" ,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<OrderedItem> orderedItems = new ArrayList<>();
 	
 	public Order() {
