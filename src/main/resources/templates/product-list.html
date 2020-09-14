@@ -9,7 +9,8 @@
 			
 			<div th:if="${param.keySet().contains('orderId')}">
 				<h3 th:text="|Customer name: ${order.customerName}|">Customer name</h3>
-				<h4 th:text="|Order id: ${order.id}.   Placed at: ${order.orderDate}|" >Order id</h4>
+				<h4 th:text="|Order id: ${order.id}|" >Order id</h4>
+				<h5 th:text="|Created at: ${order.orderDate}|">Order date</h5>
 			</div>
 			<div th:if="${!param.keySet().contains('orderId')}">
 				<h3>Products</h3>
@@ -33,17 +34,20 @@
 						<td th:text="${product.description}">Item description</td>
 						<td th:text="${product.productionDate}">Date</td>
 						<td th:if="${param.keySet().contains('orderId')}" >
-							<form th:action="@{/order/addItem}" method="post">
-								<input type="number" name="quantity" value="0" min="0" width="2" >
+							<form th:action="@{/order/addItem}" method="post" class="form-inline">
+								<input type="number" name="quantity" value="0" min="0" width="4" >
 								<input type="hidden" th:value="${product.serialNo}" name="serialNo">
 								<input type="hidden" th:value="${order.id}" name="orderId">
-								<button type="submit" class="btn btn-success btn-sm">Add Item</button>
-							</form>							
+								<button type="submit" class="btn btn-success btn-sm ml-2">Add Item</button>
+							</form>						
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<div class="row">
+			
+			<span th:replace="fragments :: date"></span>
+			
+			<div class="row mt-2">
 				
 					<a href="#" th:href="@{/}" class="btn btn-primary ml-3">All Orders</a>
 					<a href="#" th:href="@{/orderDetails(id=${order.id})}" class="btn btn-primary ml-2" th:if="${param.keySet().contains('orderId')}">Back</a>
