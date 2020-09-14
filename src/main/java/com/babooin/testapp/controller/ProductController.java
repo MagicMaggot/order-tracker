@@ -52,8 +52,7 @@ public class ProductController {
 	@GetMapping("/{serial}")
 	public Product getProduct(@PathVariable String serial) {
 		Optional<Product> result = productService.findBySerial(serial);
-		result.orElseThrow(() -> new ProductNotFoundException(serial));
-		return result.get();
+		return result.orElseThrow(() -> new ProductNotFoundException(serial));
 	}
 	
 	@PostMapping

@@ -43,6 +43,19 @@ public class Order {
 	
 	public Order() {
 	}
+	
+	public void copyFields (Order order) {
+		if (order.customerName != null && !order.customerName.isEmpty())
+			this.customerName = order.customerName;
+		if (order.customerAddress != null && !order.customerAddress.isEmpty())
+			this.customerAddress = order.customerAddress;
+		if (order.total != 0)
+			this.total = order.total;
+		if (order.orderedItems.size() > 0)
+			this.orderedItems = order.orderedItems;
+		if (order.orderDate != null)
+			this.orderDate = order.orderDate;
+	}
 
 	public Order(String customerName, String customerAddress, double total, LocalDate orderDate) {
 		this.customerName = customerName;
