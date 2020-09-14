@@ -33,11 +33,11 @@
 						<td th:text="${product.description}">Item description</td>
 						<td th:text="${product.productionDate}">Date</td>
 						<td th:if="${param.keySet().contains('orderId')}" >
-							<form th:action="@{/order/addItem}" method="post">
-								<input type="number" name="quantity" value="0" min="0" width="2" >
+							<form th:action="@{/order/addItem}" method="post" class="form-inline">
+								<input type="number" name="quantity" value="0" min="0" width="4" >
 								<input type="hidden" th:value="${product.serialNo}" name="serialNo">
 								<input type="hidden" th:value="${order.id}" name="orderId">
-								<button type="submit" class="btn btn-success btn-sm">Add Item</button>
+								<button type="submit" class="btn btn-success btn-sm ml-2">Add Item</button>
 							</form>							
 						</td>
 					</tr>
