@@ -1,7 +1,11 @@
 # Order-tracker
  datasource.properties: Datasource configuration. 
- config.properties: configure path to the XML-file that uploads Products to the database. By default it reads /WEB-INF/productList.xml
-                    configure path to the XML-file that will hold retrieved Products from the database. By default it saves to the desktop: productList.xml
+ 
+ config.properties: 
+ 
+ - configure path to the XML-file that uploads Products to the database. By default it reads /WEB-INF/productList.xml
+ 
+ - configure path to the XML-file that will hold retrieved Products from the database. By default it saves to the desktop: productList.xml
 
 ===== REST Endpoints =====
 
