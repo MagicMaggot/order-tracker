@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -69,6 +68,12 @@ public class ProductController {
 	public Product saveOrUpdateProduct(@RequestBody Product product) {
 		productService.saveOrUpdate(product);
 		return product;
+	}
+	
+	@DeleteMapping("/{serial}")
+	public String deleteProduct(@PathVariable String serial) {
+		productService.deleteBySerial(serial);
+		return "Product deleted. Serial No.: " + serial;
 	}
 	
 	@GetMapping("/list/save")

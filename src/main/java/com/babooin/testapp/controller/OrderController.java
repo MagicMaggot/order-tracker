@@ -55,7 +55,7 @@ public class OrderController {
 	@PostMapping
 	public Order addOrder(@RequestBody Order order) {
 		order.setId(0);
-		order.setOrderDate(getServerDate());
+		order.setOrderDate(getDate());
 		orderService.save(order);
 		return order;
 	}
@@ -141,7 +141,7 @@ public class OrderController {
 		return "Deleted OrderedItem id: " + itemId;
 	}
 	
-	public LocalDate getServerDate() {
+	private LocalDate getDate() {
 		ServerDateTimeService wsdl = new ServerDateTimeService();	
 		ServerDateTime serverDate = wsdl.getServerDateTime();
 		Instant instant = serverDate.getServerDate().toGregorianCalendar().toInstant();
