@@ -52,9 +52,7 @@ public class ProductController {
 	@GetMapping("/{serial}")
 	public Product getProduct(@PathVariable String serial) {
 		Optional<Product> result = productService.findBySerial(serial);
-		result.orElseThrow(() -> new ProductNotFoundException(serial));
-		System.out.println(result.get().getOrderedItems());
-		return result.get();
+		return result.orElseThrow(() -> new ProductNotFoundException(serial));
 	}
 	
 	@PostMapping
@@ -84,6 +82,7 @@ public class ProductController {
 		List<Product> products = productService.findAll();
 		String path = saveProductsLocation.isEmpty() ? "productList.xml" : saveProductsLocation; 
 		File productsXml = new File(path);
+		new File(productsXml.getParent()).mkdirs();
 		logger.info(">>> Saving products to the file: " + productsXml.getAbsolutePath());
 		try {
 			xmlMapper.writeValue(productsXml, products);

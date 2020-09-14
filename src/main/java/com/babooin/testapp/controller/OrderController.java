@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.babooin.testapp.entity.Order;
 import com.babooin.testapp.entity.OrderedItem;
+import com.babooin.testapp.entity.Product;
 import com.babooin.testapp.exception.OrderNotFoundException;
 import com.babooin.testapp.exception.OrderedItemNotFoundException;
 import com.babooin.testapp.service.OrderService;
@@ -48,8 +49,7 @@ public class OrderController {
 	@GetMapping("/{id}")
 	public Order getOrder(@PathVariable long id) {
 		Optional<Order> result = orderService.findById(id);
-		result.orElseThrow(() -> new OrderNotFoundException(id));
-		return result.get();
+		return result.orElseThrow(() -> new OrderNotFoundException(id));
 	}
 	
 	@PostMapping
@@ -62,7 +62,15 @@ public class OrderController {
 	
 	@PutMapping
 	public Order updateOrder(@RequestBody Order order) {
-		orderService.saveOrUpdate(order);
+		if (order.getId() == 0)
+			order = addOrder(order);
+		else {
+			Order original = getOrder(order.getId());
+			original.copyFields(order);
+			orderService.saveOrUpdate(original);
+			order = original;
+		}
+			
 		return order;
 	}
 	
@@ -82,18 +90,23 @@ public class OrderController {
 	@GetMapping("/{id}/items/{itemId}")
 	public OrderedItem getOrderedItem(@PathVariable long id, @PathVariable long itemId) {
 		Optional<OrderedItem> result = orderedItemService.findByOrderIdAndItemId(id, itemId);
-		result.orElseThrow(() -> new OrderedItemNotFoundException(itemId));
-		return result.get();
+		return result.orElseThrow(() -> new OrderedItemNotFoundException(itemId));
 	}
 	
 	@PostMapping("/{id}/items")
 	public String addItem(@PathVariable long id, @RequestBody OrderedItem item) {
 		Order order = getOrder(id);
-		item.setProduct(productService.findBySerialOrThrow(item.getProduct().getSerialNo()));
-		item.setOrder(order);
-		order.addItem(item);
-		updateOrder(order);
-		return "Item '" + item.getProduct().getName() + "' added to the order number " + order.getId() + ".";
+		Optional<OrderedItem> itemInOrder = orderedItemService.findByOrderIdAndSerialNo(id, item.getProduct().getSerialNo());
+		String message;
+		if (itemInOrder.isPresent())
+			message = updateOrderedItem(id, item);
+		else {
+			item.setProduct(productService.findBySerialOrThrow(item.getProduct().getSerialNo()));
+			order.addItem(item);
+			updateOrder(order);
+			message = "Item '" + item.getProduct().getName() + "' added to the order number " + order.getId() + ".";
+		}
+		return message;
 	}
 	
 	@PutMapping("/{id}/items")
@@ -109,8 +122,7 @@ public class OrderController {
 		}
 		OrderedItem original = null;
 		if (item.isIdSet()) {
-			originalResult.orElseThrow(() -> new OrderedItemNotFoundException());
-			original = originalResult.get();
+			original = originalResult.orElseThrow(() -> new OrderedItemNotFoundException());
 		} else {
 			original = originalResult.orElse(new OrderedItem());
 			original.setOrder(getOrder(id));

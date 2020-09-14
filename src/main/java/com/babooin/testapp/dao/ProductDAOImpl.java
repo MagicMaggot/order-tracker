@@ -70,8 +70,7 @@ public class ProductDAOImpl implements ProductDAO {
 	@Override
 	public Product findBySerialOrThrow(String serial) throws ProductNotFoundException {
 		Optional<Product> result = findBySerial(serial.toUpperCase());
-		result.orElseThrow(() -> new ProductNotFoundException(serial));
-		return result.get();
+		return result.orElseThrow(() -> new ProductNotFoundException(serial));
 		
 	}
 

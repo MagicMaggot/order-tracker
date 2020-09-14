@@ -29,11 +29,6 @@ public class FrontController {
 	@Autowired
 	private OrderedItemService orderedItemService;
 	
-	@GetMapping("/hello")
-	public String getHomePage() {
-		return "home";
-	}
-	
 	@GetMapping("/")
 	public String getOrderList(Model m) {
 		m.addAttribute("orders", orderController.getOrders());
