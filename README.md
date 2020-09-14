@@ -11,53 +11,53 @@
 
 === Products:
 
-@GET
+@GET\
 /order-tracker/api/products - get list of all products.
 
-@GET
+@GET\
 /order-tracker/api/products/{serial} - get product by serial. If product not found, returns an error.
 
-@POST
+@POST\
 /order-tracker/api/products - save product to the database. If serial number already exists - returns an error.
 
-@PUT
+@PUT\
 /order-tracker/api/products - updates existing product in the database. If item with this serial is not present - saves this item.
 
-@DELETE
+@DELETE\
 /order-tracker/api/products/{serial} - deletes product and all related orderedItems. If item with this serial is not present - returns an error.
 
-@GET
+@GET\
 /order-tracker/api/products/list/save - saves products from the database to an XML-file, configured in config.properties.
 
-@POST
+@POST\
 /order-tracker/api/products/list/refresh - uplods products to the database from the XML-file, configured in config.properties.
 
 === Orders:
 
-@GET
+@GET\
 /order-tracker/api/orders - get list of all orders.
 
-@GET
+@GET\
 /order-tracker/api/orders/{orderId} - get order by id. If order is not found, returns an error.
 
-@POST
+@POST\
 /order-tracker/api/orders - save order to the database. It always saves as a new order, even if ID is provided in the request body.
 
-@PUT
+@PUT\
 /order-tracker/api/orders - update existing order. If order with provided ID does not exist, save as a new order.
 
-@DELETE
+@DELETE\
 /order-tracker/api/orders/{orderId} - delete order and all related orderedItems. If order does not exist, returns an error.
 
-@GET
+@GET\
 /order-tracker/api/orders/{orderId}/items/{itemId} - get particular item from particular order, or else return an error.
 
-@POST
+@POST\
 /order-tracker/api/orders/{orderId}/items - add an item to the order. If the order or product (serial) is not found, returns an error.
 
-@PUT
+@PUT\
 /order-tracker/api/orders/{orderId}/items - update an item in the order. Item payload only needs [quantity and (orderedItem.id OR product.serial)] fields. If an id is present. Provided only orderedItem.id, sets quantity from the payload. Provided only product.serial, checks if such item exists in the order and then sets quantity from the payload; if item does not exist in this order, then it adds this item to the order. Provided orderedItem.id AND product.serial - finds orderedItem by id and sets product by serial. If product with provided serial is not found - returns an error.
 
-@DELETE
+@DELETE\
 rder-tracker/api/orders/{orderId}/items/{itemId} - delete orderedItem from the order. If item is not found,  returns an error.
 
