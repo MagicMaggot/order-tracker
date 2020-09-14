@@ -76,6 +76,7 @@ public class ProductController {
 		List<Product> products = productService.findAll();
 		String path = saveProductsLocation.isEmpty() ? "productList.xml" : saveProductsLocation; 
 		File productsXml = new File(path);
+		new File(productsXml.getParent()).mkdirs();
 		logger.info(">>> Saving products to the file: " + productsXml.getAbsolutePath());
 		try {
 			xmlMapper.writeValue(productsXml, products);
