@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -41,9 +41,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public void deleteById(String serial) {
-		Query<Product> query = getSession().createQuery("delete from Product where serialNo = :serial");
-		query.setParameter("serial", serial);
-		query.executeUpdate();
+		throw new NotYetImplementedException();
 	}
 	
 	private Session getSession() {
@@ -57,21 +55,18 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public void deleteBySerial(String serial) {
-		deleteById(serial);
-		
+		throw new NotYetImplementedException();
 	}
 
 	@Override
 	public void delete(Product entity) {
-		getSession().remove(entity);
-		
+		throw new NotYetImplementedException();
 	}
 
 	@Override
 	public Product findBySerialOrThrow(String serial) throws ProductNotFoundException {
 		Optional<Product> result = findBySerial(serial.toUpperCase());
-		result.orElseThrow(() -> new ProductNotFoundException(serial));
-		return result.get();
+		return result.orElseThrow(() -> new ProductNotFoundException(serial));
 		
 	}
 

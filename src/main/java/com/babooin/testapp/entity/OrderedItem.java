@@ -2,7 +2,6 @@ package com.babooin.testapp.entity;
 
 import java.util.Objects;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,14 +23,14 @@ public class OrderedItem {
 	@Column(name = "item_id")
 	private long id;
 	
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH  })
+	@OneToOne
 	@JoinColumn(name = "serial_no")
 	private Product product;
 	
 	@Column(name = "qty")
 	private int quantity;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToOne
 	@JoinColumn(name = "order_id")
 	@JsonIgnore
 	private Order order;

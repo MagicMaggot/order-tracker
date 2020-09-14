@@ -10,7 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,7 +32,7 @@ public class Product {
 	private String productionDate;
 	
 	@JsonIgnore
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<OrderedItem> orderedItems = new ArrayList<>();
 	
 	public Product() {

@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,9 +53,7 @@ public class ProductController {
 	@GetMapping("/{serial}")
 	public Product getProduct(@PathVariable String serial) {
 		Optional<Product> result = productService.findBySerial(serial);
-		result.orElseThrow(() -> new ProductNotFoundException(serial));
-		System.out.println(result.get().getOrderedItems());
-		return result.get();
+		return result.orElseThrow(() -> new ProductNotFoundException(serial));
 	}
 	
 	@PostMapping
@@ -70,13 +69,6 @@ public class ProductController {
 	public Product saveOrUpdateProduct(@RequestBody Product product) {
 		productService.saveOrUpdate(product);
 		return product;
-	}
-	
-	@DeleteMapping("/{serial}")
-	public String deleteProduct(@PathVariable String serial) {
-		getProduct(serial);
-		productService.deleteBySerial(serial);
-		return "Product deleted. Serial No.: " + serial;
 	}
 	
 	@GetMapping("/list/save")

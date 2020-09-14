@@ -48,8 +48,7 @@ public class OrderController {
 	@GetMapping("/{id}")
 	public Order getOrder(@PathVariable long id) {
 		Optional<Order> result = orderService.findById(id);
-		result.orElseThrow(() -> new OrderNotFoundException(id));
-		return result.get();
+		return result.orElseThrow(() -> new OrderNotFoundException(id));
 	}
 	
 	@PostMapping
@@ -82,8 +81,7 @@ public class OrderController {
 	@GetMapping("/{id}/items/{itemId}")
 	public OrderedItem getOrderedItem(@PathVariable long id, @PathVariable long itemId) {
 		Optional<OrderedItem> result = orderedItemService.findByOrderIdAndItemId(id, itemId);
-		result.orElseThrow(() -> new OrderedItemNotFoundException(itemId));
-		return result.get();
+		return result.orElseThrow(() -> new OrderedItemNotFoundException(itemId));
 	}
 	
 	@PostMapping("/{id}/items")
@@ -109,8 +107,7 @@ public class OrderController {
 		}
 		OrderedItem original = null;
 		if (item.isIdSet()) {
-			originalResult.orElseThrow(() -> new OrderedItemNotFoundException());
-			original = originalResult.get();
+			original = originalResult.orElseThrow(() -> new OrderedItemNotFoundException());
 		} else {
 			original = originalResult.orElse(new OrderedItem());
 			original.setOrder(getOrder(id));
