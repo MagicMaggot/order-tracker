@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,8 +27,10 @@ import com.babooin.testapp.service.ProductService;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
+	
+	private Logger logger = Logger.getLogger(getClass().getName());
 	
 	@Value("${xmlProducts.upload.location}")
 	private String uploadProductsLocation;
@@ -79,6 +82,7 @@ public class ProductController {
 		List<Product> products = productService.findAll();
 		String path = saveProductsLocation.isEmpty() ? "productList.xml" : saveProductsLocation; 
 		File productsXml = new File(path);
+		logger.info(">>> Saving products to the file: " + productsXml.getAbsolutePath());
 		try {
 			xmlMapper.writeValue(productsXml, products);
 		} catch (IOException e) {
@@ -89,10 +93,11 @@ public class ProductController {
 	
 	@PostMapping("/list/refresh")
 	public List<Product> refreshProducts(HttpServletRequest req) {
-		String defaultPath = req.getServletContext().getRealPath("/WEB-INF") + "/products.xml";
+		String defaultPath = req.getServletContext().getRealPath("/WEB-INF") + "/productList.xml";
 		String path = uploadProductsLocation.isEmpty() ? defaultPath : uploadProductsLocation;
 		File productsXml = new File(path);
 		List<Product> products = new ArrayList<>();
+		logger.info(">>> Reading products from the file: " + productsXml.getAbsolutePath());
 		try {
 			products = xmlMapper.readerForListOf(Product.class).readValue(productsXml);
 		} catch (IOException e) {

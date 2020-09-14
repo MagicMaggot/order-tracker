@@ -20,7 +20,7 @@ public class ProductDAOImpl implements ProductDAO {
 	
 	@Override
 	public Optional<Product> findById(String serial) {
-		Product product = getSession().get(Product.class, serial);
+		Product product = getSession().get(Product.class, serial.toUpperCase());
 		return Optional.ofNullable(product);
 	}
 
@@ -52,7 +52,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public Optional<Product> findBySerial(String serial) {
-		return findById(serial);
+		return findById(serial.toUpperCase());
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class ProductDAOImpl implements ProductDAO {
 
 	@Override
 	public Product findBySerialOrThrow(String serial) throws ProductNotFoundException {
-		Optional<Product> result = findBySerial(serial);
+		Optional<Product> result = findBySerial(serial.toUpperCase());
 		result.orElseThrow(() -> new ProductNotFoundException(serial));
 		return result.get();
 		

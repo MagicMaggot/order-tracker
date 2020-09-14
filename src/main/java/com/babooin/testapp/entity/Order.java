@@ -34,7 +34,6 @@ public class Order {
 	private double total;
 	
 	@Column(name = "placed")
-	//private String orderDate;
 	private LocalDate orderDate;
 	
 	@JsonProperty("orderedItem")
@@ -50,14 +49,6 @@ public class Order {
 		this.customerAddress = customerAddress;
 		this.total = total;
 		this.orderDate = orderDate;
-	}
-
-	public List<OrderedItem> getOrderedItems() {
-		return orderedItems;
-	}
-
-	public void setOrderedItems(List<OrderedItem> orderedItems) {
-		this.orderedItems = orderedItems;
 	}
 
 	public long getId() {
@@ -99,7 +90,15 @@ public class Order {
 	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
-	
+
+	public List<OrderedItem> getOrderedItems() {
+		return orderedItems;
+	}
+
+	public void setOrderedItems(List<OrderedItem> orderedItems) {
+		this.orderedItems = orderedItems;
+	}
+
 	public void addItem(OrderedItem item) {
 		item.setOrder(this);
 		getOrderedItems().add(item);

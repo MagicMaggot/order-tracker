@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -40,41 +39,54 @@ public class OrderedItem {
 	public OrderedItem() {
 	}
 
+	
 	public long getId() {
 		return id;
 	}
+
 
 	public void setId(long id) {
 		this.id = id;
 	}
 
+
 	public Product getProduct() {
 		return product;
 	}
+
 
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
+
 	public int getQuantity() {
 		return quantity;
 	}
+
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
+
 	public Order getOrder() {
 		return order;
 	}
+
 
 	public void setOrder(Order order) {
 		this.order = order;
 	}
 
+
 	@Override
 	public String toString() {
 		return "OrderDetails [id=" + id + ", product=" + product + ", quantity=" + quantity + ", order=" + order.getId() + "]";
+	}
+	
+	public boolean isIdSet() {
+		return id > 0;
 	}
 
 	@Override

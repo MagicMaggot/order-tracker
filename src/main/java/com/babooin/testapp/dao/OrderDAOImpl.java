@@ -5,13 +5,10 @@ import java.util.Optional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.babooin.testapp.entity.Order;
-import com.babooin.testapp.entity.OrderedItem;
-import com.babooin.testapp.exception.OrderNotFoundException;
 
 @Repository
 public class OrderDAOImpl implements OrderDAO {

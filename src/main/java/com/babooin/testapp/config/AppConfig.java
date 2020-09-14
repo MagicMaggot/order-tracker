@@ -13,11 +13,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -37,6 +42,40 @@ public class AppConfig {
 	@Bean
 	public XmlMapper xmlMapper() {
 		return new XmlMapper();
+	}
+	
+	@Bean
+	public ClassLoaderTemplateResolver templateResolver() {
+		ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+		resolver.setPrefix("/templates/");
+		resolver.setSuffix(".html");
+		resolver.setCharacterEncoding("UTF-8");
+		resolver.setCacheable(false);
+		return resolver;
+	}
+	
+	@Bean
+	public SpringTemplateEngine templateEngine() {
+		SpringTemplateEngine engine = new SpringTemplateEngine();
+		engine.setTemplateResolver(templateResolver());
+		engine.setEnableSpringELCompiler(true);
+		engine.setTemplateEngineMessageSource(messageSource());
+		return engine;
+	}
+	
+	@Bean
+	public ViewResolver viewResolver() {
+		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+		resolver.setCharacterEncoding("UTF-8");
+		resolver.setTemplateEngine(templateEngine());
+		return resolver;
+	}
+	
+	@Bean
+	public ResourceBundleMessageSource messageSource() {
+		ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+		source.setBasename("messages");
+		return source;
 	}
 	
 	@Bean
