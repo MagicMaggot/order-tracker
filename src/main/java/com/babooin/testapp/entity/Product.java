@@ -1,11 +1,18 @@
 package com.babooin.testapp.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "products")
@@ -22,6 +29,10 @@ public class Product {
 	@Column(name = "production_date")
 	private String productionDate;
 	
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.EAGER)
+	private List<OrderedItem> orderedItems = new ArrayList<>();
+	
 	public Product() {
 	}
 
@@ -32,6 +43,14 @@ public class Product {
 		this.productionDate = date;
 	}
 
+
+	public List<OrderedItem> getOrderedItems() {
+		return orderedItems;
+	}
+
+	public void setOrderedItems(List<OrderedItem> orderedItems) {
+		this.orderedItems = orderedItems;
+	}
 
 	public String getSerialNo() {
 		return serialNo;

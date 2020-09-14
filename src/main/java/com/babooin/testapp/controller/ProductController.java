@@ -72,6 +72,7 @@ public class ProductController {
 	
 	@DeleteMapping("/{serial}")
 	public String deleteProduct(@PathVariable String serial) {
+		getProduct(serial);
 		productService.deleteBySerial(serial);
 		return "Product deleted. Serial No.: " + serial;
 	}
