@@ -51,14 +51,6 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	public List<OrderedItem> getOrderedItems() {
-		return orderedItems;
-	}
-
-	public void setOrderedItems(List<OrderedItem> orderedItems) {
-		this.orderedItems = orderedItems;
-	}
-
 	public long getId() {
 		return id;
 	}
@@ -98,7 +90,15 @@ public class Order {
 	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
-	
+
+	public List<OrderedItem> getOrderedItems() {
+		return orderedItems;
+	}
+
+	public void setOrderedItems(List<OrderedItem> orderedItems) {
+		this.orderedItems = orderedItems;
+	}
+
 	public void addItem(OrderedItem item) {
 		item.setOrder(this);
 		getOrderedItems().add(item);

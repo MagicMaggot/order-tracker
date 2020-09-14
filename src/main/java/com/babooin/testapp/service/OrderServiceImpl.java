@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.babooin.testapp.dao.OrderDAO;
 import com.babooin.testapp.entity.Order;
-import com.babooin.testapp.entity.OrderedItem;
 
 @Service
 public class OrderServiceImpl implements OrderService {

@@ -62,6 +62,18 @@ public class OrderedItemDAOImpl implements OrderedItemDAO {
 		Query<OrderedItem> query = getSession().createQuery("from OrderedItem o where o.order.id = :orderId and o.id = :itemId");
 		query.setParameter("orderId", orderId);
 		query.setParameter("itemId", itemId);
+		return executeQueryFindOne(query);
+	}
+
+	@Override
+	public Optional<OrderedItem> findByOrderIdAndSerialNo(long orderId, String serial) {
+		Query<OrderedItem> query = getSession().createQuery("from OrderedItem o where o.order.id = :orderId and o.product.serialNo = :serial");
+		query.setParameter("orderId", orderId);
+		query.setParameter("serial", serial);
+		return executeQueryFindOne(query);
+	}
+	
+	private Optional<OrderedItem> executeQueryFindOne(Query<OrderedItem> query) {
 		List<OrderedItem> item = query.getResultList();
 		OrderedItem result = null;
 		if (item.size() > 0)

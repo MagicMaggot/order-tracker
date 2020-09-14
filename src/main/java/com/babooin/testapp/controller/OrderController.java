@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.babooin.testapp.entity.Order;
 import com.babooin.testapp.entity.OrderedItem;
-import com.babooin.testapp.entity.Product;
 import com.babooin.testapp.exception.OrderNotFoundException;
 import com.babooin.testapp.exception.OrderedItemNotFoundException;
-import com.babooin.testapp.exception.ProductNotFoundException;
 import com.babooin.testapp.service.OrderService;
 import com.babooin.testapp.service.OrderedItemService;
 import com.babooin.testapp.service.ProductService;
@@ -92,9 +89,6 @@ public class OrderController {
 	@PostMapping("/{id}/items")
 	public String addItem(@PathVariable long id, @RequestBody OrderedItem item) {
 		Order order = getOrder(id);
-		//Optional<Product> resultProduct = productService.findBySerial(item.getProduct().getSerialNo());
-		//resultProduct.orElseThrow(() -> new ProductNotFoundException(item.getProduct().getSerialNo()));
-		//item.setProduct(resultProduct.get());
 		item.setProduct(productService.findBySerialOrThrow(item.getProduct().getSerialNo()));
 		item.setOrder(order);
 		order.addItem(item);
@@ -104,19 +98,34 @@ public class OrderController {
 	
 	@PutMapping("/{id}/items")
 	public String updateOrderedItem(@PathVariable long id, @RequestBody OrderedItem item) {
-		OrderedItem original = getOrderedItem(id, item.getId());
-		original.setProduct(productService.findBySerialOrThrow(item.getProduct().getSerialNo()));
+		Optional<OrderedItem> originalResult = Optional.ofNullable(null);
+		if (item.isIdSet()) {
+			originalResult = orderedItemService.findByOrderIdAndItemId(id, item.getId());
+		} else if (item.getProduct() != null && item.getProduct().getSerialNo() != null) {
+			originalResult = orderedItemService.findByOrderIdAndSerialNo(id, item.getProduct().getSerialNo());
+			originalResult.ifPresent(e -> item.setId(e.getId()));
+		} else {
+			throw new RuntimeException("Bad request. You need to supply orderedItem id or product serialNo.");
+		}
+		OrderedItem original = null;
+		if (item.isIdSet()) {
+			originalResult.orElseThrow(() -> new OrderedItemNotFoundException());
+			original = originalResult.get();
+		} else {
+			original = originalResult.orElse(new OrderedItem());
+			original.setOrder(getOrder(id));
+		}
+		if (item.getProduct() != null && item.getProduct().getSerialNo() != null)
+			original.setProduct(productService.findBySerialOrThrow(item.getProduct().getSerialNo()));
 		original.setQuantity(item.getQuantity());
 		orderedItemService.saveOrUpdate(original);
-		return "Item updated. Order id: " + id + ", Item id: " + item.getId();
+		return "Item updated. Order id: " + id + ", Item: " + original.getProduct().getName();
 	}
 	
 	@DeleteMapping("/{id}/items/{itemId}")
 	public String deleteItem(@PathVariable long id, @PathVariable long itemId) {
 		OrderedItem item = getOrderedItem(id, itemId);
-		
 		orderedItemService.delete(item);
-
 		return "Deleted OrderedItem id: " + itemId;
 	}
 	

@@ -63,4 +63,10 @@ public class OrderedItemServiceImpl implements OrderedItemService {
 		return dao.findByOrderIdAndItemId(orderId, itemId);
 	}
 
+	@Override
+	@Transactional
+	public Optional<OrderedItem> findByOrderIdAndSerialNo(long orderId, String serial) {
+		return dao.findByOrderIdAndSerialNo(orderId, serial);
+	}
+
 }

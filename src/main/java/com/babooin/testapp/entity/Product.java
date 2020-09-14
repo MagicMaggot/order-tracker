@@ -32,6 +32,7 @@ public class Product {
 		this.productionDate = date;
 	}
 
+
 	public String getSerialNo() {
 		return serialNo;
 	}
@@ -56,13 +57,14 @@ public class Product {
 		this.description = description;
 	}
 
-	public String getDate() {
+	public String getProductionDate() {
 		return productionDate;
 	}
 
-	public void setDate(String date) {
-		this.productionDate = date;
+	public void setProductionDate(String productionDate) {
+		this.productionDate = productionDate;
 	}
+
 
 	@Override
 	public String toString() {
