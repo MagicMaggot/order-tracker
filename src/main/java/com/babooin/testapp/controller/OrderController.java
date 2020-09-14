@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.babooin.testapp.entity.Order;
 import com.babooin.testapp.entity.OrderedItem;
-import com.babooin.testapp.entity.Product;
 import com.babooin.testapp.exception.OrderNotFoundException;
 import com.babooin.testapp.exception.OrderedItemNotFoundException;
 import com.babooin.testapp.service.OrderService;
@@ -55,7 +54,7 @@ public class OrderController {
 	@PostMapping
 	public Order addOrder(@RequestBody Order order) {
 		order.setId(0);
-		order.setOrderDate(getDate());
+		order.setOrderDate(getServerDate());
 		orderService.save(order);
 		return order;
 	}
@@ -141,7 +140,7 @@ public class OrderController {
 		return "Deleted OrderedItem id: " + itemId;
 	}
 	
-	private LocalDate getDate() {
+	public LocalDate getServerDate() {
 		ServerDateTimeService wsdl = new ServerDateTimeService();	
 		ServerDateTime serverDate = wsdl.getServerDateTime();
 		Instant instant = serverDate.getServerDate().toGregorianCalendar().toInstant();

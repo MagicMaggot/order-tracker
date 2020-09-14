@@ -8,7 +8,8 @@
 		<div class="container pt-3">
 			
 			<h3 th:text="|Customer name: ${order.customerName}|">Customer name</h3>
-			<h4 th:text="|Order id: ${order.id}.   Placed at: ${order.orderDate}|" >Order id</h4>
+			<h4 th:text="|Order id: ${order.id}|" >Order id</h4>
+			<h5 th:text="|Created at: ${order.orderDate}|">Order date</h5>
 			
 			<hr>
 			<a href="#" th:href="@{/order/addItem(orderId=${order.id})}" class="btn btn-primary mb-3">Add Item</a>
@@ -39,7 +40,10 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="row">
+			
+			<span th:replace="fragments :: date"></span>
+			
+			<div class="row mt-2">
 			
 				<a href="#" th:href="@{/}" class="btn btn-primary ml-3 mr-2">All Orders</a> 
 				<a href="#" th:href="@{/deleteOrder(id=${order.id})}" class="btn btn-danger"

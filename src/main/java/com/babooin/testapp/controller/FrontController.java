@@ -1,5 +1,7 @@
 package com.babooin.testapp.controller;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,11 @@ public class FrontController {
 	
 	@Autowired
 	private OrderedItemService orderedItemService;
+	
+	@ModelAttribute("serverDate")
+	public LocalDate getServerDate() {
+		return orderController.getServerDate();
+	}
 	
 	@GetMapping("/")
 	public String getOrderList(Model m) {
